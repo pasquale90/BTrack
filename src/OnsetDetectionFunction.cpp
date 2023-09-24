@@ -19,6 +19,7 @@
  */
 //=======================================================================
 
+#include <iostream>
 #include <math.h>
 #include "OnsetDetectionFunction.h"
 
@@ -181,7 +182,11 @@ double OnsetDetectionFunction::calculateOnsetDetectionFunctionSample (double* bu
 	double odfSample;
 		
 	// shift audio samples back in frame by hop size
-    std::rotate (frame.begin(), frame.begin() + hopSize, frame.end());
+    // std::rotate (frame.begin(), frame.begin() + hopSize, frame.end());
+	for (int i= 0; i<(frameSize-hopSize);i++)
+	{
+		frame[i] = frame[i+hopSize];
+	}
 	
 	// add new samples to frame from input buffer
 	int j = 0;
@@ -435,6 +440,13 @@ double OnsetDetectionFunction::spectralDifferenceHWR()
 	return sum;		
 }
 
+//=======================================================================
+
+//custom methods
+// double *OnsetDetectionFunction::getMagSpec()
+//..
+//..
+// for now will be discarded
 
 //=======================================================================
 double OnsetDetectionFunction::phaseDeviation()
